@@ -4,6 +4,9 @@ LD.Bullet = function() {
     PIXI.Sprite.call( this, PIXI.Texture.fromImage('img/bullet.png') );
     
     //this.anchor.x = this.anchor.y = 0.5;
+    this.anchor.y = 0.5;
+    this.width = 30;
+    this.height = 9;
     
     this.visible = false;
     
@@ -28,7 +31,7 @@ LD.Bullet.prototype.updateTransform = function() {
         this.position.x += this.speedX;
         this.position.y += this.speedY;
         
-        if(this.position.x > LD.Config.width) {
+        if(this.position.x > LD.Config.width || this.position.x < 0 || this.position.y > LD.Config.height || this.position.y < 0) {
             this.canRealloc();
         }
     }

@@ -11,10 +11,20 @@ LD.Controls = {
     LEFT: 37,
     RIGHT: 39,
     S: 83,
-    Q: 81,
+    Q: [81, 65],
     D: 68,
-    Z: 90,
+    Z: [90, 87],
     F: 70,
+    I: 73,
+    J: 74,
+    K: 75,
+    L: 76,
+    M: [77, 186],
+    N8: 104,
+    N4: 100,
+    N5: 101,
+    N6: 102,
+    PLUS: 107,
     CTRL: 17,
     
     keysPressed: [],
@@ -34,7 +44,7 @@ LD.Controls = {
         document.addEventListener('keydown', this.keyDownHandler);
         
         this.keyUpHandler = function(e) {
-          //console.log(e.keyCode);
+          console.log(e.keyCode);
             e.preventDefault();
             scope.keyUp(e);
         };
@@ -63,7 +73,15 @@ LD.Controls = {
      * @var int keyCode
      */
     pressed: function(keyCode) {
+      if(keyCode.length !== undefined) {
+        var pressed = false;
+        for(var i in keyCode) {
+          if(this.keysPressed[keyCode[i]]) pressed = true;
+        }
+        return pressed;
+      } else {
         return this.keysPressed[keyCode];
+      }
     }
     
 }

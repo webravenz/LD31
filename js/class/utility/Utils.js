@@ -14,13 +14,13 @@ LD.Utils = {
     return floatVal ? val : Math.floor(val);
   },
   circlesCollide: function(c1, c2) {
-    var distance = this.circlesDistance(c1, c2);
+    var distance = this.getDistance(c1, c2);
     return distance <= c1.radius + c2.radius;
   },
-  circlesDistance: function (c1, c2) {
-    return Math.sqrt(this.sqr(c2.y - c1.y) + this.sqr(c2.x - c1.x));
+  getDistance: function (p1, p2) {
+    return Math.sqrt(this.sqr(p2.y - p1.y) + this.sqr(p2.x - p1.x));
   },
-  angleBetweenCircles: function(c1, c2) {
+  angleBetween: function(c1, c2) {
     return Math.atan2(c2.y - c1.y, c2.x - c1.x);
   },
   sqr: function(a) {

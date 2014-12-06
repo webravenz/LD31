@@ -2,17 +2,10 @@
 LD.Sounds = {
   
   url: 'sound/',
-  formats: ["mp3"],
+  formats: ["wav"],
 
   init: function() {
-    this.create('bullet', 10);
-    this.create('aie', 2);
-    this.create('candyfall', 10);
-    this.create('jump', 1);
-    this.create('fire', 1);
-    this.create('king', 1);
-    this.create('apple', 1);
-    this.create('smurf', 1);
+    this.create('bullet', 20);
   },
 
   play: function(name) {

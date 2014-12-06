@@ -1,7 +1,10 @@
-LD.BulletsManager = function(player) {
+LD.BulletsManager = function() {
     PIXI.DisplayObjectContainer.call( this );
     
-    var totalBullets = 20;
+    this.bSpeed = 12;
+    this.bSpeed2 = 8;
+    
+    var totalBullets = 40;
     this.bullets = [];
     var tmpBullets = [];
     while(totalBullets--) {
@@ -11,37 +14,75 @@ LD.BulletsManager = function(player) {
         tmpBullets.push(b);
     }
     this.pool = new LD.Pool(tmpBullets);
-    
-    
-    this.SHOOT_DELAY = 15;
-    this.shootTimer = 0;
-    this.player = player;
 }
 
 LD.BulletsManager.constructor = LD.BulletsManager;
 LD.BulletsManager.prototype = Object.create( PIXI.DisplayObjectContainer.prototype );
 
-
-LD.BulletsManager.prototype.updateTransform = function() {
-    this.shootTimer--;
-    
-    if(this.player.canShoot && this.shootTimer <= 0 && (LD.Controls.pressed(LD.Controls.S))) {
-        this.shoot();
-    }
-    
-    PIXI.DisplayObjectContainer.prototype.updateTransform.call( this );
-}
-
-LD.BulletsManager.prototype.shoot = function() {
+LD.BulletsManager.prototype.shoot = function(x, y, direction) {
     var scope = this;
     
     this.pool.act(function(b, pool) {
         b.alloc();
-        b.position.x = scope.player.position.x + scope.player.width - b.speedX - 5;
-        b.position.y = scope.player.position.y + scope.player.height / 2 + 35;
-        scope.player.speedX -= 2;
-        scope.player.speedY *= 0.3;
+        
+        switch(direction) {
+          case 0:
+            y -= 30;
+            b.rotation = -Math.PI / 2;
+            b.speedX = 0;
+            b.speedY = -scope.bSpeed;
+            break;
+          case 1:
+            y -= 25;
+            x += 25;
+            b.rotation = -Math.PI / 4;
+            b.speedX = scope.bSpeed2;
+            b.speedY = -scope.bSpeed2;
+            break;
+          case 2:
+            x += 35;
+            b.rotation = 0;
+            b.speedX = scope.bSpeed;
+            b.speedY = 0;
+            break;
+          case 3:
+            y += 25;
+            x += 25;
+            b.rotation = Math.PI / 4;
+            b.speedX = scope.bSpeed2;
+            b.speedY = scope.bSpeed2;
+            break;
+          case 4:
+            y += 35;
+            b.rotation = Math.PI / 2;
+            b.speedX = 0;
+            b.speedY = scope.bSpeed;
+            break;
+          case 5:
+            y += 25;
+            x -= 25;
+            b.rotation = (Math.PI * 3) / 4;
+            b.speedX = -scope.bSpeed2;
+            b.speedY = scope.bSpeed2;
+            break;
+          case 6:
+            x -= 35;
+            b.rotation = Math.PI;
+            b.speedX = -scope.bSpeed;
+            b.speedY = 0;
+            break;
+          case 7:
+            y -= 25;
+            x -= 25;
+            b.rotation = -(Math.PI * 3) / 4;
+            b.speedX = -scope.bSpeed2;
+            b.speedY = -scope.bSpeed2;
+            break;
+        }
+        
+        b.position.x = x;
+        b.position.y = y;
+        
+        LD.Sounds.play('bullet');
     });
-    
-    this.shootTimer = this.SHOOT_DELAY;
 };

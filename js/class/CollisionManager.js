@@ -13,6 +13,7 @@ LD.CollisionManager = function(players, enemiesManager, bulletsManager) {
 LD.CollisionManager.constructor = LD.CollisionManager;
 
 LD.CollisionManager.prototype.checkCollision = function() {
+  var bM = this.bulletsManager.bullets;
 //  var eM = this.enemiesManager.enemies,
 //      bM = this.bulletsManager.bullets,
 //      i = eM.length;
@@ -41,26 +42,24 @@ LD.CollisionManager.prototype.checkCollision = function() {
 //    }
 //  }
 
-  // collisions between players
   var i = this.players.length,
       j,
       p1,
       p2;
       
   while(i--) {
+    // collisions between players
     j = i;
+    p1 = this.players[i];
     while(j--) {
-      p1 = this.players[i];
       p2 = this.players[j];
       if(p1.num !== p2.num && !p1.dead && !p2.dead) {
         var s = p1.num+'-'+p2.num;
         if(LD.Utils.circlesCollide(p1.hitArea, p2.hitArea)) {
           if(!this.pC[s]) {
             this.pC[s] = 10;
-            var xDiff = p1.speedX - p2.speedX,
-                yDiff = p1.speedY - p2.speedY,
-                p1Angle = LD.Utils.angleBetweenCircles(p2.hitArea, p1.hitArea),
-                p2Angle = LD.Utils.angleBetweenCircles(p1.hitArea, p2.hitArea),
+            var p1Angle = LD.Utils.angleBetween(p2.hitArea, p1.hitArea),
+                p2Angle = LD.Utils.angleBetween(p1.hitArea, p2.hitArea),
                 strength = 5;
 
             // applique xDiff + yDiff aux vitesses selon l'angle
@@ -71,6 +70,17 @@ LD.CollisionManager.prototype.checkCollision = function() {
           }
         } else {
           this.pC[s] && this.pC[s]--;
+        }
+      }
+    }
+    
+    // collision with bullets
+    if(!p1.dead) {
+      var a = bM.length;
+      while(a--) {
+        if(bM[a].visible && LD.Utils.getDistance(p1.hitArea, bM[a]) <= p1.hitArea.radius) {
+          p1.bulletHit(bM[a]);
+          bM[a].canRealloc();
         }
       }
     }
