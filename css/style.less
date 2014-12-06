@@ -1,0 +1,376 @@
+
+@import "reset.less";
+@import "variables.less";
+@import "fonts.less";
+@import "functions.less";
+
+body, html {
+  font-family: cartoon, sans-serif;
+  background: @bgColor;
+  cursor: default;
+  width: 100%;
+  height: 100%;
+}
+
+#game {
+  width: 1100px;
+  height: 800px;
+  position: absolute;
+  overflow: hidden;
+  margin-left: -550px;
+  margin-top: -400px;
+  top: 50%;
+  left: 50%;
+}
+
+.life-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  .translate3d(0, -80px, 0);
+  .transition(all .5s ease);
+}
+
+.life-ui.show {
+  .translate3d(0, 0, 0);
+}
+
+.life-ui .bar {
+  position: absolute;
+  top: 0;
+  right: -12px;
+  width: 440px;
+  height: 12px;
+  background: rgba(0,0,0,0.3);
+}
+
+#player-ui .bar {
+  left: -12px;
+  right: inherit;
+}
+
+.life-ui .bar:before, .life-ui .bar > div:before {
+  position: absolute;
+  top: 0;
+  left: -24px;
+  border: 12px solid transparent;
+  border-right: 12px solid rgba(0,0,0,0.3);
+  border-top: none;
+  content: "";
+}
+
+#player-ui .bar:before, #player-ui .bar > div:before {
+  left: auto;
+  right: -24px;
+  border-right: 12px solid transparent;
+  border-left: 12px solid rgba(0,0,0,0.3);
+}
+
+.life-ui .bar > div:before {
+  border-right: 12px solid @barColor;
+}
+
+#player-ui .bar > div:before {
+  border-right: 12px solid transparent;
+  border-left: 12px solid @barColor;
+}
+
+.life-ui .bar > div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 12px;
+  background: @barColor;
+  .transition(width .2s ease);
+}
+
+#player-ui .bar > div {
+  right: auto;
+  left: 0;
+}
+
+.life-ui .name-container {
+  position: absolute;
+  right: 0;
+  top: 12px;
+  background: rgba(0,0,0,0.4);
+  height: 40px;
+}
+
+#player-ui .name-container {
+  right: auto;
+  left: 0;
+}
+
+.life-ui .name-container:before {
+  position: absolute;
+  top: 0;
+  left: -80px;
+  border: 40px solid transparent;
+  border-right: 40px solid rgba(0,0,0,0.4);
+  border-top: none;
+  content: "";
+}
+
+#player-ui .name-container:before {
+  left: auto;
+  right: -80px;
+  border-right: 40px solid transparent;
+  border-left: 40px solid rgba(0,0,0,0.4);
+}
+
+.life-ui .name {
+  font-size: 16px;
+  color: #FFF;
+  text-align: right;
+  padding: 0 20px;
+  line-height: 20px;
+}
+
+@media (-webkit-min-device-pixel-ratio:0) {
+  .life-ui .name {
+    line-height: 44px;
+  }
+}
+
+#player-ui .name {
+  text-align: left;
+}
+
+.life-ui .bubble {
+  position: absolute;
+  top: 100px;
+  right: 50px;
+  padding: 40px;
+  background: #FFF;
+  color: #333;
+  font-size: 20px;
+  border-radius: 200px;
+  visibility: hidden;
+  opacity: 0;
+  .transform-origin(bottom right);
+  .scale(0.8);
+  .transition-transform(~".5s ease, opacity .5s ease, visibility 0s linear .5s");
+}
+
+.life-ui .bubble.show {
+  visibility: visible;
+  opacity: 1;
+  .scale(1);
+  .transition-transform(~".5s ease, opacity .5s ease");
+}
+
+.life-ui .bubble:before {
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: -70px;
+  right: 50px;
+  border: 40px solid transparent;
+  border-top: 30px solid #FFF;
+  border-right: none;
+}
+
+
+.screen {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  .scale(1.1);
+  .transition-transform(~".5s ease, opacity .5s ease, visibility 0s linear .5s");
+}
+
+.screen.show {
+  z-index: 10;
+  opacity: 1;
+  visibility: visible;
+  .scale(1);
+  .transition(all 1s ease 1s);
+} 
+
+#game-over {
+  background: #101010;
+}
+
+#game-over h2 {
+  padding-top: 60px;
+  font-size: 60px;
+  color: #FFF;
+  text-align: center;
+}
+
+#game-over .dead {
+  position: absolute;
+  left: 380px;
+  top: 380px;
+  width: 301px;
+  height: 172px;
+  background: url(../img/prince-dead.png);
+}
+
+#game-over .ghost {
+  position: absolute;
+  left: 500px;
+  top: 175px;
+  width: 145px;
+  height: 234px;
+  background: url(../img/prince-ghost.png);
+  opacity: 0;
+  .translate3d(0,40px,0);
+  .transition(all 2s ease 2s);
+}
+
+#game-over.show .ghost {
+  opacity: 1;
+  .translate3d(0,0,0);
+}
+
+#game-over .retry {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  width: 310px;
+  margin-left: -155px;
+  .scale(.9);
+  opacity: 0;
+  .transition-transform(~" .5s ease 4s, opacity .5s ease 4s");
+}
+
+#game-over.show .retry {
+  .scale(1);
+  opacity: 1;
+}
+
+.btn {
+  display: block;
+  text-align: center;
+  font-size: 30px;
+  color: #FFF;
+  padding: 20px;
+  padding-top: 5px;
+  padding-bottom: 30px;
+  border-radius: 100px;
+  background: @btnColor;
+  text-decoration: none;
+  border: 5px solid #FFF;
+}
+
+@media (-webkit-min-device-pixel-ratio:0) {
+  .btn {
+    padding-top: 30px;
+    padding-bottom: 20px;
+  }
+}
+
+.btn:hover {
+  background: lighten(@btnColor, 10%);
+}
+
+.play.btn, .replay.btn {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  width: 310px;
+  margin-left: -155px;
+}
+
+#home h1 {
+  padding-top: 60px;
+  text-align: center;
+  color: #FFF;
+  font-size: 80px;
+}
+
+#home h1 span {
+  display: block;
+  font-size: 40px;
+  padding-top: 30px;
+}
+
+#home h1 i {
+  font-size: 40px;
+}
+
+#home .controls {
+  width: 28%;
+  float: left;
+  padding-top: 200px;
+  text-align: center;
+  background-position: top center;
+  background-repeat: no-repeat;
+  margin-top: 80px;
+  color: #fff;
+  font-size: 30px;
+}
+
+#home .controls.arrows {
+  background-image: url(../img/arrows.png);
+}
+
+#home .controls.shoot {
+  background-image: url(../img/s.png);
+  margin-left: 250px;
+}
+
+#story > div {
+  margin: 80px;
+  background: #fff8dd;
+  padding: 60px;
+  padding-top: 30px;
+  border-radius: 60px;
+}
+
+#story > div p {
+  font-size: 24px;
+  color: #c99d72;
+  padding-top: 30px;
+  line-height: 2;
+}
+
+#story > div p b {
+  color: #ad5601;
+}
+
+footer {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: lighten(@bgColor, 10%);
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  color: #999;
+  padding: 10px 0;
+  text-align: center;
+}
+
+footer a {
+  color: #FFF;
+  text-decoration: none;
+}
+
+#complete .congrats {
+  font-size: 60px;
+  color: #FFF;
+  padding-top: 200px;
+  text-align: center;
+}
+
+#complete .time {
+  font-size: 24px;
+  color: #FFF;
+  padding-top: 60px;
+  text-align: center;
+  line-height: 2;
+}
+#complete .time span {
+  display: block;
+}

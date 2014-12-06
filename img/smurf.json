@@ -1,0 +1,44 @@
+{"frames": {
+
+"smurf1.png":
+{
+	"frame": {"x":2,"y":286,"w":85,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":140},
+	"sourceSize": {"w":85,"h":140}
+},
+"smurf2.png":
+{
+	"frame": {"x":2,"y":144,"w":85,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":140},
+	"sourceSize": {"w":85,"h":140}
+},
+"smurf3.png":
+{
+	"frame": {"x":2,"y":286,"w":85,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":140},
+	"sourceSize": {"w":85,"h":140}
+},
+"smurf4.png":
+{
+	"frame": {"x":2,"y":2,"w":85,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":140},
+	"sourceSize": {"w":85,"h":140}
+}},
+"meta": {
+	"app": "http://www.texturepacker.com",
+	"version": "1.0",
+	"image": "smurf.png",
+	"format": "RGBA8888",
+	"size": {"w":128,"h":512},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:08a4b5dcfa744f6e896283c347211306$"
+}
+}

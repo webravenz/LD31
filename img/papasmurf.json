@@ -1,0 +1,44 @@
+{"frames": {
+
+"papasmurf1.png":
+{
+	"frame": {"x":252,"y":370,"w":248,"h":366},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":248,"h":366},
+	"sourceSize": {"w":248,"h":366}
+},
+"papasmurf2.png":
+{
+	"frame": {"x":2,"y":370,"w":248,"h":366},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":248,"h":366},
+	"sourceSize": {"w":248,"h":366}
+},
+"papasmurf3.png":
+{
+	"frame": {"x":252,"y":2,"w":248,"h":366},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":248,"h":366},
+	"sourceSize": {"w":248,"h":366}
+},
+"papasmurf4.png":
+{
+	"frame": {"x":2,"y":2,"w":248,"h":366},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":248,"h":366},
+	"sourceSize": {"w":248,"h":366}
+}},
+"meta": {
+	"app": "http://www.texturepacker.com",
+	"version": "1.0",
+	"image": "papasmurf.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":1024},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:fa959f9194990a33e97c0ef505b6f28e$"
+}
+}
