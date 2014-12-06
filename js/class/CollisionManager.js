@@ -56,7 +56,7 @@ LD.CollisionManager.prototype.checkCollision = function() {
         var s = p1.num+'-'+p2.num;
         if(LD.Utils.circlesCollide(p1.hitArea, p2.hitArea)) {
           if(!this.pC[s]) {
-            this.pC[s] = true;
+            this.pC[s] = 10;
             var xDiff = p1.speedX - p2.speedX,
                 yDiff = p1.speedY - p2.speedY,
                 p1Angle = LD.Utils.angleBetweenCircles(p2.hitArea, p1.hitArea),
@@ -70,7 +70,7 @@ LD.CollisionManager.prototype.checkCollision = function() {
             p2.speedY += Math.sin(p2Angle) * strength;
           }
         } else {
-          this.pC[s] = false;
+          this.pC[s] && this.pC[s]--;
         }
       }
     }

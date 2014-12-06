@@ -39,14 +39,14 @@
   LD.Sounds.init();
     
 	// create a renderer instance and append the view 
-	var renderer = PIXI.autoDetectRenderer(LD.Config.width, LD.Config.height);
+	var renderer = PIXI.autoDetectRenderer(LD.Config.width, LD.Config.height, {transparent: true});
   document.getElementById('game').appendChild(renderer.view);
     
 	var background, bulletsManager, enemiesManager, collisionManager;
     
   // load all needed assets
   var loader = new PIXI.AssetLoader([
-    'img/background.jpg',
+    'img/background.png',
     'img/p1_1.png', 'img/p1_2.png', 'img/p1_3.png', 'img/p1_4.png', 'img/p1_5.png', 'img/p1_6.png', 'img/p1_7.png', 'img/p1_8.png',
     'img/p2_1.png', 'img/p2_2.png', 'img/p2_3.png', 'img/p2_4.png', 'img/p2_5.png', 'img/p2_6.png', 'img/p2_7.png', 'img/p2_8.png',
     'img/p3_1.png', 'img/p3_2.png', 'img/p3_3.png', 'img/p3_4.png', 'img/p3_5.png', 'img/p3_6.png', 'img/p3_7.png', 'img/p3_8.png',
@@ -57,7 +57,7 @@
     
   function onAssetsLoaded() {
 
-    background = PIXI.Sprite.fromImage('img/background.jpg');
+    background = PIXI.Sprite.fromImage('img/background.png');
     background.width = LD.Config.width;
     background.height = LD.Config.height;
     stage.addChild(background);
