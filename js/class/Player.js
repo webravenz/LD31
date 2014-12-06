@@ -1,23 +1,55 @@
 
-LD.Player = function() {
+LD.Player = function(num) {
+  
+  this.num = num;
+  this.controls = LD.Config.playerControls[num];
     
-  var textures = LD.SpriteSheetTextures.getArray('player', '.png', 4);
-
-  PIXI.MovieClip.call( this, textures );
+  var images = [];
+  for(var i = 1; i < 9; i++) {
+    images.push('img/p'+(num+1)+'_'+i+'.png');
+  }
+  var mc = PIXI.MovieClip.fromImages(images);
+  PIXI.MovieClip.call( this, mc.textures );
 
   //this.anchor.x = this.anchor.y = 0.5;
 
   // moving vars
-  this.ACCELERATION = 0.4;
+  this.ACCELERATION = 0.15;
   this.MAX_SPEED = 6;
-  this.MIN_X = 0;
-  this.MIN_Y = 0;
-  this.MAX_X = (LD.Config.width - this.width) * 0.6;
-  this.MAX_Y = LD.Config.height - this.height;
+  this.MIN_X = LD.Config.width * 0.085 - this.width / 2;
+  this.MAX_X = LD.Config.width * 0.905 - this.width / 2;
+  this.MIN_Y = LD.Config.height * 0.127 - this.height / 2;
+  this.MAX_Y = LD.Config.height * 0.852 - this.height / 2;
 
   this.animationSpeed = 0.1;
-  this.hitArea = new LD.Rectangle(0, 0, 85, 85);
-  this.hitOffset = {x: 50, y: 70};
+  this.hitArea = new PIXI.Circle(0, 0, 20);
+  this.hitOffset = {x: this.width / 2, y: this.height / 2};
+  
+  switch(num) {
+    case 0 :
+      this.gotoAndStop(3);
+      break;
+    case 1 :
+      this.gotoAndStop(7);
+      break;
+    case 2 :
+      this.gotoAndStop(1);
+      break;
+    case 3 :
+      this.gotoAndStop(5);
+      break;
+  }
+  
+  this.dirToFrame = {
+    n: 0,
+    ne: 1,
+    e: 2,
+    se: 3,
+    s: 4,
+    sw: 5,
+    w: 6,
+    nw: 7
+  };
   
 };
 
@@ -27,17 +59,13 @@ LD.Player.prototype = Object.create( PIXI.MovieClip.prototype );
 
 LD.Player.prototype.init = function() {
   
-  this.position.x = 100;
-  this.position.y = 340;
+  this.position.x = LD.Config.playersPos[this.num][0] - this.width / 2;
+  this.position.y = LD.Config.playersPos[this.num][1] - this.height / 2;
   this.speedX = this.speedY = 0;
   this.canShoot = false;
-  
-  // life
-  this.life = this.maxLife = 10;
-  this.hitTimer = 0;
+  this.dead = false;
   
   this.visible = true;
-  LD.PlayerUI.majBar(100);
   
 };
 
@@ -61,9 +89,7 @@ LD.Player.prototype.hitEnnemy = function() {
  * life is over
  */
 LD.Player.prototype.die = function() {
-  this.visible = false;
-  LD.Controls.stop();
-  LD.showGameOver();
+  this.dead = true;
 };
 
 /**
@@ -71,21 +97,26 @@ LD.Player.prototype.die = function() {
  */
 LD.Player.prototype.updateTransform = function() {
     
+  var dir = '';
   // keyboard controls
-  if(LD.Controls.pressed(LD.Controls.UP)) {
+  if(LD.Controls.pressed(this.controls.up) && !this.dead) {
       this.speedY -= this.ACCELERATION;
-  } else if(LD.Controls.pressed(LD.Controls.DOWN)) {
+      dir += 'n';
+  } else if(LD.Controls.pressed(this.controls.down) && !this.dead) {
       this.speedY += this.ACCELERATION;
+      dir += 's';
   } else {
-      this.speedY /= 1.3;
+      this.speedY /= 1.02;
   }
 
-  if(LD.Controls.pressed(LD.Controls.LEFT)) {
+  if(LD.Controls.pressed(this.controls.left) && !this.dead) {
       this.speedX -= this.ACCELERATION;
-  } else if(LD.Controls.pressed(LD.Controls.RIGHT)) {
+      dir += 'w';
+  } else if(LD.Controls.pressed(this.controls.right) && !this.dead) {
       this.speedX += this.ACCELERATION;
+      dir += 'e';
   } else {
-      this.speedX /= 1.3;
+      this.speedX /= 1.02;
   }
   
   this.hitTimer--;
@@ -93,26 +124,28 @@ LD.Player.prototype.updateTransform = function() {
 
   // update speed and position
   this.speedY = LD.Utils.boundary(this.speedY, -this.MAX_SPEED, this.MAX_SPEED);
-  if(Math.abs(this.speedY) < 0.3) this.speedY = 0;
   this.position.y += this.speedY;
   this.speedX = LD.Utils.boundary(this.speedX, -this.MAX_SPEED, this.MAX_SPEED);
-  if(Math.abs(this.speedX) < 0.3) this.speedX = 0;
   this.position.x += this.speedX;
 
   // update anim
-  if(this.speedY != 0 || this.speedX != 0) {
-      this.play();
-  } else {
-      this.gotoAndStop(0);
+  if(dir !== '') {
+    this.gotoAndStop(this.dirToFrame[dir]);
   }
 
-  // prevent ship to leave game screen
-  this.position.y = LD.Utils.boundary(this.position.y, this.MIN_Y, this.MAX_Y);
-  this.position.x = LD.Utils.boundary(this.position.x, this.MIN_X, this.MAX_X);
 
   //we update the hitArea
   this.hitArea.x = this.position.x + this.hitOffset.x;
   this.hitArea.y = this.position.y + this.hitOffset.y;
+  
+  // you leave platform you die
+  if(this.position.x > this.MAX_X || this.position.x < this.MIN_X || this.position.y > this.MAX_Y || this.position.y < this.MIN_Y) {
+    this.die();
+  }
+  
+  if(this.dead && this.alpha > 0) {
+    this.alpha -= 0.05;
+  }
 
   PIXI.MovieClip.prototype.updateTransform.call( this ); 
 };
