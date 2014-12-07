@@ -17,10 +17,17 @@ LD.Player = function(num, shootCb) {
   // moving vars
   this.ACCELERATION = 0.1;
   this.MAX_SPEED = 4;
-  this.MIN_X = LD.Config.width * 0.085;
-  this.MAX_X = LD.Config.width * 0.905;
-  this.MIN_Y = LD.Config.height * 0.127;
-  this.MAX_Y = LD.Config.height * 0.852;
+  this.MIN_X = 152;
+  this.MAX_X = 1140;
+  this.MIN_Y = 136;
+  this.MAX_Y = 626;
+  
+  this.LIM_LINES = [
+    [{x: 155, y: 528}, {x: 390, y: 630}], // bottom left
+    [{x: 900, y: 628}, {x: 1139, y: 526}], // bottom right
+    [{x: 393, y: 136}, {x: 153, y: 236}], // top left
+    [{x: 1137, y: 236}, {x: 897, y: 136}] // top right
+  ];
 
   this.animationSpeed = 0.1;
   this.hitArea = new PIXI.Circle(0, 0, 24);
@@ -69,7 +76,8 @@ LD.Player.prototype.init = function() {
   this.position.y = LD.Config.playersPos[this.num][1];
   this.speedX = this.speedY = 0;
   this.dead = false;
-  this.alpha = 1;
+  this.alpha = 0;
+  this.initing = true;
   this.scale.x = this.scale.y = 1;
   
   this.visible = true;
@@ -87,6 +95,7 @@ LD.Player.prototype.bulletHit = function(bullet) {
  * life is over
  */
 LD.Player.prototype.die = function() {
+  !this.dead && LD.Sounds.play('mort');
   this.dead = true;
 };
 
@@ -96,7 +105,7 @@ LD.Player.prototype.die = function() {
 LD.Player.prototype.updateTransform = function() {
     
   // check shoot btn
-  if(LD.Controls.pressed(this.controls.shoot) && !this.dead && !this.shootTimer) {
+  if(LD.Controls.pressed(this.controls.shoot) && !this.dead && !this.shootTimer && !this.initing) {
     this.shootCb(this);
     this.shootTimer = this.SHOOT_DELAY;
   }
@@ -107,31 +116,40 @@ LD.Player.prototype.updateTransform = function() {
     
   var dir = '';
   // keyboard controls
-  if(LD.Controls.pressed(this.controls.up) && !this.dead && !this.hitTimer) {
+  if(LD.Controls.pressed(this.controls.up) && !this.dead && !this.hitTimer && !this.initing) {
       this.speedY -= this.ACCELERATION;
       dir += 'n';
-  } else if(LD.Controls.pressed(this.controls.down) && !this.dead && !this.hitTimer) {
+  } else if(LD.Controls.pressed(this.controls.down) && !this.dead && !this.hitTimer && !this.initing) {
       this.speedY += this.ACCELERATION;
       dir += 's';
   } else {
       this.speedY /= 1.01;
   }
 
-  if(LD.Controls.pressed(this.controls.left) && !this.dead && !this.hitTimer) {
+  if(LD.Controls.pressed(this.controls.left) && !this.dead && !this.hitTimer && !this.initing) {
       this.speedX -= this.ACCELERATION;
       dir += 'w';
-  } else if(LD.Controls.pressed(this.controls.right) && !this.dead && !this.hitTimer) {
+  } else if(LD.Controls.pressed(this.controls.right) && !this.dead && !this.hitTimer && !this.initing) {
       this.speedX += this.ACCELERATION;
       dir += 'e';
   } else {
       this.speedX /= 1.01;
   }
   
+  // transparent on hit
   if(this.hitTimer > 0) {
     this.hitTimer--;
     this.alpha = 0.5;
-  } else if(!this.dead) {
+  } else if(!this.dead && !this.initing) {
     this.alpha = 1;
+  }
+  
+  // fadein on init
+  if(this.initing) {
+    this.alpha += 0.01;
+    if(this.alpha >= 1) {
+      this.initing = false;
+    }
   }
 
   // update speed and position
@@ -151,7 +169,15 @@ LD.Player.prototype.updateTransform = function() {
   this.hitArea.y = this.position.y + this.hitOffset.y;
   
   // you leave platform you die
-  if(this.position.x > this.MAX_X || this.position.x < this.MIN_X || this.position.y > this.MAX_Y || this.position.y < this.MIN_Y) {
+  var outDiagonales = false,
+      i = this.LIM_LINES.length;
+  while(i--) {
+    if((this.LIM_LINES[i][1].x-this.LIM_LINES[i][0].x)*(this.position.y-this.LIM_LINES[i][0].y) - (this.LIM_LINES[i][1].y-this.LIM_LINES[i][0].y)*(this.position.x-this.LIM_LINES[i][0].x) > 0) {
+      outDiagonales = true;
+      break;
+    }
+  }
+  if(outDiagonales || this.position.x > this.MAX_X || this.position.x < this.MIN_X || this.position.y > this.MAX_Y || this.position.y < this.MIN_Y) {
     this.die();
   }
   

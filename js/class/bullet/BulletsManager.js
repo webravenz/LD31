@@ -86,3 +86,10 @@ LD.BulletsManager.prototype.shoot = function(x, y, direction) {
         LD.Sounds.play('bullet');
     });
 };
+
+
+LD.BulletsManager.prototype.removeAll = function() {
+  for(var i = 0; i < this.bullets.length; i++) {
+    if(this.bullets[i].visible) this.bullets[i].canRealloc();
+  }
+};

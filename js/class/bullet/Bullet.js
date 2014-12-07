@@ -37,3 +37,4 @@ LD.Bullet.prototype.updateTransform = function() {
     }
     PIXI.Sprite.prototype.updateTransform.call( this );
 };
+

@@ -25,7 +25,7 @@ LD.Controls = {
     N5: 101,
     N6: 102,
     PLUS: 107,
-    CTRL: 17,
+    CTRL: [16, 17, 18],
     
     keysPressed: [],
     
@@ -34,6 +34,8 @@ LD.Controls = {
      */
     start: function() {
         var scope = this;
+        
+        this.stop();
         
         this.keyDownHandler = function(e) {
           if(e.keyCode != 116) { // dont disable F5 or there will be some problem for the dev !
@@ -44,7 +46,6 @@ LD.Controls = {
         document.addEventListener('keydown', this.keyDownHandler);
         
         this.keyUpHandler = function(e) {
-          console.log(e.keyCode);
             e.preventDefault();
             scope.keyUp(e);
         };

@@ -13,34 +13,34 @@ LD.CollisionManager = function(players, enemiesManager, bulletsManager) {
 LD.CollisionManager.constructor = LD.CollisionManager;
 
 LD.CollisionManager.prototype.checkCollision = function() {
-  var bM = this.bulletsManager.bullets;
-//  var eM = this.enemiesManager.enemies,
-//      bM = this.bulletsManager.bullets,
-//      i = eM.length;
-//  while (i--) {
-//    if (eM[i].active) {
-//      var a = bM.length;
-//      while (a--) { //test with bullet
-//        if (bM[a].visible) {
-//          if (eM[i].hitArea && !eM[i].cantTouch && eM[i].hitArea.contain(bM[a].position)) {
-//            eM[i].touched(bM[a]);
-//            bM[a].canRealloc();
-//            this.dispatchEvent('ENEMY_TOUCHED');
-//            LD.Sounds.play('bullet');
-//            //console.log('ENEMY TOUCHED');
-//          }
-//        }
-//      }
-//      if (eM[i].hitArea && this.player.visible && this.player.alpha == 1 && eM[i].hitArea.intersectWith(this.player.hitArea)) {
-//        eM[i].canRealloc();
-//        this.player.hitEnnemy();
-//        LD.Sounds.play('aie');
-//        this.dispatchEvent('TOUCH_ENEMY');
-//      }
-//
-//
-//    }
-//  }
+  var eM = this.enemiesManager.enemies,
+      bM = this.bulletsManager.bullets,
+      i = eM.length;
+  while (i--) {
+    if (eM[i].active) {
+      var a = bM.length;
+      while (a--) { //test with bullet
+        if (bM[a].visible) {
+          if (eM[i].hitArea && LD.Utils.getDistance(eM[i].hitArea, bM[a]) <= eM[i].hitArea.radius) {
+            eM[i].touched(bM[a]);
+            bM[a].canRealloc();
+            this.enemiesManager.ennemyDie(eM[i]);
+            LD.Sounds.play('asteroide');
+            //console.log('ENEMY TOUCHED');
+          }
+        }
+      }
+      var j = this.players.length;
+      while(j--) {
+        if (eM[i].hitArea && this.players[j].visible && !this.players[j].dead && LD.Utils.circlesCollide(eM[i].hitArea, this.players[j].hitArea)) {
+          this.players[j].die();
+          //LD.Sounds.play('aie');
+        }
+      }
+
+
+    }
+  }
 
   var i = this.players.length,
       j,

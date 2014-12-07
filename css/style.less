@@ -6,10 +6,53 @@
 
 body, html {
   font-family: Arial, Helvetica, sans-serif;
-  background: @bgColor;
+  background: #3c4c5a;
   cursor: default;
   width: 100%;
   height: 100%;
+}
+
+.body-loading {
+  position: absolute;
+  width: 200px;
+  text-align: center;
+  color: #FFF;
+  font-size: 30px;
+  top: 50%;
+  left: 50%;
+  margin-top: -15px;
+  margin-left: -100px;
+  .transition(all .3s ease);
+  
+  .bar {
+    display: block;
+    width: 100%;
+    position: absolute;
+    height: 10px;
+    top: 40px;
+    left: 0;
+    border: 1px solid #FFF;
+    
+    > span {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: #FFF;
+      width: 0;
+      .transition(width .1s ease);
+    }
+  }
+}
+
+.loaded .body-loading {
+  opacity: 0;
+  .translate3d(0, 20px, 0);
+}
+
+.loaded #wrapper {
+  opacity: 1;
 }
 
 #wrapper {
@@ -22,6 +65,8 @@ body, html {
   background-size: cover;
   background-position: center;
   overflow: hidden;
+  opacity: 0;
+  .transition(opacity 1s linear);
 }
 
 .plateforme1 {
@@ -35,11 +80,21 @@ body, html {
   &.num1 {
     top: 100%;
     left: 0;
+    
+    -webkit-animation: floating ease-in-out 10s infinite;
+    -moz-animation: floating ease-in-out 10s infinite;
+    -ms-animation: floating ease-in-out 10s infinite;
+    animation: floating ease-in-out 10s infinite;
   }
   
   &.num2 {
     top: 90%;
     left: 90%;
+    
+    -webkit-animation: floating2 ease-in-out 13s infinite;
+    -moz-animation: floating2 ease-in-out 13s infinite;
+    -ms-animation: floating2 ease-in-out 13s infinite;
+    animation: floating2 ease-in-out 13s infinite;
   }
 }
 
@@ -54,11 +109,21 @@ body, html {
   &.num1 {
     top: 45%;
     left: 5%;
+    
+    -webkit-animation: floating ease-in-out 8s infinite;
+    -moz-animation: floating ease-in-out 8s infinite;
+    -ms-animation: floating ease-in-out 8s infinite;
+    animation: floating ease-in-out 8s infinite;
   }
   
   &.num2 {
     top: 60%;
     left: 95%;
+    
+    -webkit-animation: floating3 ease-in-out 16s infinite;
+    -moz-animation: floating3 ease-in-out 16s infinite;
+    -ms-animation: floating3 ease-in-out 16s infinite;
+    animation: floating3 ease-in-out 16s infinite;
   }
 }
 
@@ -73,26 +138,38 @@ body, html {
   &.num1 {
     top: 55%;
     left: 8%;
+    -webkit-animation: floating ease-in-out 6s infinite;
+    -moz-animation: floating ease-in-out 6s infinite;
+    -ms-animation: floating ease-in-out 6s infinite;
+    animation: floating ease-in-out 6s infinite;
   }
   
   &.num2 {
     top: 80%;
     left: 95%;
+    -webkit-animation: floating2 ease-in-out 11s infinite;
+    -moz-animation: floating2 ease-in-out 11s infinite;
+    -ms-animation: floating2 ease-in-out 11s infinite;
+    animation: floating2 ease-in-out 11s infinite;
   }
   
   &.num3 {
     top: 95%;
     left: 45%;
+    -webkit-animation: floating2 ease-in-out 16s infinite;
+    -moz-animation: floating2 ease-in-out 16s infinite;
+    -ms-animation: floating2 ease-in-out 16s infinite;
+    animation: floating2 ease-in-out 16s infinite;
   }
 }
 
 #game {
-  width: 1200px;
-  height: 676px;
+  width: 1300px;
+  height: 776px;
   position: absolute;
   overflow: hidden;
-  margin-left: -600px;
-  margin-top: -338px;
+  margin-left: -650px;
+  margin-top: -388px;
   top: 50%;
   left: 50%;
 }
@@ -106,7 +183,7 @@ body, html {
   height: 100%;
   opacity: 0;
   visibility: hidden;
-  .scale(1.1);
+  .translate3d(0, -20px, 0);
   .transition-transform(~".5s ease, opacity .5s ease, visibility 0s linear .5s");
 }
 
@@ -114,34 +191,45 @@ body, html {
   z-index: 10;
   opacity: 1;
   visibility: visible;
-  .scale(1);
+  .translate3d(0, 0, 0);
   .transition(all 1s ease 1s);
 } 
 
 .btn {
   display: block;
-  text-align: center;
-  font-size: 24px;
-  color: #FFF;
+  width: 213px;
+  height: 95px;
+  margin: 0 auto;
   padding: 0;
-  line-height: 50px;
-  border: 1px solid #FFF;
-  text-decoration: none;
   .box-sizing(border-box);
-}
+  background-size: 100%;
+  
+  &.play {
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    left: 50%;
+    margin-left: -106px;
+    background-image: url(../img-css/play_1.png);
 
-.btn:hover {
-  border: 2px solid #FFF;
-  line-height: 48px;
-}
-
-.play.btn, .replay.btn {
-  position: absolute;
-  top: 50%;
-  margin-top: -25px;
-  left: 50%;
-  width: 200px;
-  margin-left: -100px;
+    &:hover {
+      background-image: url(../img-css/play_2.png);
+    }
+  }
+  
+  &.continue {
+    background-image: url(../img-css/continue_1.png);
+    &:hover {
+      background-image: url(../img-css/continue_2.png);
+    }
+  }
+  
+  &.menu {
+    background-image: url(../img-css/menu_1.png);
+    &:hover {
+      background-image: url(../img-css/menu_2.png);
+    }
+  }
 }
 
 .logo {
@@ -151,7 +239,7 @@ body, html {
   background-position: center;
   background-repeat: no-repeat;
   position: absolute;
-  top: 0;
+  top: -4px;
   left: 50%;
   margin-left: -150px;
   background-image: url(../img-css/logo.png);
@@ -159,13 +247,13 @@ body, html {
 
 .controls-info {
   position: absolute;
-  top: 160px;
+  top: 210px;
   width: 300px;
   color: #FFF;
-  left: 150px;
+  left: 200px;
   
   &.right {
-    right: 100px;
+    right: 150px;
     left: auto;
   }
   
@@ -190,7 +278,7 @@ body, html {
     width: 50px;
     text-align: center;
     font-size: 12px;
-    border: 1px solid #FFF;
+    background: rgba(255,255,255,.3);
     padding-bottom: 4px;
     margin-top: 5px;
     
@@ -203,17 +291,18 @@ body, html {
     }
     
     &.top {
-      margin-left: 57px;
+      margin-left: 55px;
     }
     
     &.shoot {
-      margin-top: 37px;
+      margin-top: 35px;
     }
     
     span {
       display: block;
       line-height: 20px;
-      border-bottom: 1px solid #FFF;
+      background: #FFF;
+      color: #497b80;
     }
   }
   
@@ -229,7 +318,7 @@ body, html {
 .players-num {
   position: absolute;
   top: 50%;
-  margin-top: 40px;
+  margin-top: 60px;
   color: #FFF;
   font-size: 16px;
   left: 50%;
@@ -250,10 +339,156 @@ body, html {
   
   input:checked + label {
     background: #FFF;
-    color: #95ac96;
+    color: #497b80;
   }
   
   input {
     display: none;
   }
 }
+
+#game-over {
+  h2 {
+    color: #FFF;
+    font-size: 40px;
+    font-weight: bold;
+    padding-top: 200px;
+    text-align: center;
+    text-transform: uppercase;
+    padding-bottom: 40px;
+  }
+}
+
+#scores {
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  > div {
+    position: absolute;
+    top: 0;
+    padding-left: 70px;
+    line-height: 50px;
+    color: #FFF;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    width: 120px;
+    .box-sizing(border-box);
+    background-repeat: no-repeat;
+    background-size: 90px;
+    background-position: -20px -25px;
+    .transition-transform(~".3s ease, opacity .3s linear, left .5s ease");
+    
+    &.hidden {
+      opacity: 0;
+      .translate3d(0, -10px, 0);
+    }
+    
+    &.p1 {
+      background-image: url(../img/p1_3.png);
+    }
+    
+    &.p2 {
+      background-image: url(../img/p2_3.png);
+    }
+    
+    &.p3 {
+      background-image: url(../img/p3_3.png);
+    }
+    
+    &.p4 {
+      background-image: url(../img/p4_3.png);
+    }
+  }
+}
+
+#son-btn {
+  display: block;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  width: 25px;
+  height: 18px;
+  background: url(../img-css/son.png) no-repeat;
+  background-size: 25px;
+  
+  &.muted {
+    background-position: 0 -18px;
+  }
+}
+
+#credits-btn {
+  display: block;
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #FFF;
+  text-decoration: none;
+}
+
+#credits {
+  position: absolute;
+  bottom: 0;
+  right: -350px;
+  width: 350px;
+  background: #FFF;
+  .box-sizing(border-box);
+  padding: 30px;
+  font-size: 16px;
+  z-index: 999;
+  .transition(right .5s ease);
+  
+  .close {
+    display: block;
+    position: absolute;
+    background: #497b80;
+    color: #FFF;
+    right: 0;
+    top: 0;
+    padding: 7px 10px;
+  }
+  
+  &.show {
+    right: 0;
+  }
+  
+  p {
+    margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  a {
+    color: #497b80;
+    text-decoration: none;
+  }
+}
+
+.rules {
+  position: absolute;
+  bottom: 175px;
+  color: #FFF;
+  font-size: 16px;
+  text-align: center;
+  width: 100%;
+}
+
+
+@-webkit-keyframes floating { 50% { -webkit-transform: translate3d(-30px, 0, 0); } 100% { -webkit-transform: translate3d(0, 0, 0); } }
+@-moz-keyframes floating { 50% { -moz-transform: translate3d(-30px, 0, 0); } 100% { -moz-transform: translate3d(0, 0, 0); } }
+@-ms-keyframes floating { 50% { -ms-transform: translate3d(-30px, 0, 0); } 100% { -ms-transform: translate3d(0, 0, 0); } }
+@keyframes floating { 50% { transform: translate3d(-30px, 0, 0); } 100% { transform: translate3d(0, 0, 0); } }
+
+@-webkit-keyframes floating2 { 50% { -webkit-transform: translate3d(-60px, 0, 0); } 100% { -webkit-transform: translate3d(0, 0, 0); } }
+@-moz-keyframes floating2 { 50% { -moz-transform: translate3d(-60px, 0, 0); } 100% { -moz-transform: translate3d(0, 0, 0); } }
+@-ms-keyframes floating2 { 50% { -ms-transform: translate3d(-60px, 0, 0); } 100% { -ms-transform: translate3d(0, 0, 0); } }
+@keyframes floating2 { 50% { transform: translate3d(-60px, 0, 0); } 100% { transform: translate3d(0, 0, 0); } }
+
+@-webkit-keyframes floating3 { 50% { -webkit-transform: translate3d(-90px, 0, 0); } 100% { -webkit-transform: translate3d(0, 0, 0); } }
+@-moz-keyframes floating3 { 50% { -moz-transform: translate3d(-90px, 0, 0); } 100% { -moz-transform: translate3d(0, 0, 0); } }
+@-ms-keyframes floating3 { 50% { -ms-transform: translate3d(-90px, 0, 0); } 100% { -ms-transform: translate3d(0, 0, 0); } }
+@keyframes floating3 { 50% { transform: translate3d(-90px, 0, 0); } 100% { transform: translate3d(0, 0, 0); } }

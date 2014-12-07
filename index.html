@@ -3,72 +3,150 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Call of Candy : Sugar Warfare</title>
+        <title>Vindwoo | LD31</title>
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
 
         <link rel="stylesheet" href="css/style.css">
+        <link rel="icon" type="image/png" href="favicon.png" />
         <script>
-            var CANDY = window.CANDY || {};
+            var LD = window.LD || {};
         </script>
     </head>
     <body>
+      
+      <div class="body-loading">Loading ...<span class="bar"><span></span></span></div>
 
+      <div id="wrapper">
+        
+        <div class="plateforme3 num1"></div>
+        <div class="plateforme3 num2"></div>
+        <div class="plateforme3 num3"></div>
+        
+        <div class="plateforme2 num1"></div>
+        <div class="plateforme2 num2"></div>
+        
+        <div class="plateforme1 num1"></div>
+        <div class="plateforme1 num2"></div>
+        
+        <a id="son-btn" href="#"></a>
+        
+        <a id="credits-btn" href="#">Credits</a>
+        
+        <div id="credits">
+          <a class="close" href="#">&times;</a>
+          <p>Vindwoo created for <a href="http://ludumdare.com/compo/" target="_blank">Ludum Dare 31</a></p>
+          <p>Design by <a href="http://robinjeanney.fr" target="_blank">Robin Jeanney</a></p>
+          <p>Code by <a href="http://cmegnin.fr" target="_blank">Clément Mégnin</a></p>
+          <p>Made with <a href="http://www.pixijs.com/" target="_blank">pixi.js</a></p>
+        </div>
+        
         <div id="game">
-          <div id="boss-ui" class="life-ui">
-            <div class="bar">
-              <div></div>
-            </div>
-            <div class="name-container">
-              <p class="name"></p>
-            </div>
-            <p class="bubble"></p>
-          </div>
-
-          <div id="player-ui" class="life-ui">
-            <div class="bar">
-              <div></div>
-            </div>
-            <div class="name-container">
-              <p class="name">Prince UL</p>
-            </div>
-            <p class="bubble"></p>
-          </div>
           
           <div id="home" class="screen">
-            <h1>Call <i>of</i> Candy<span>Sugar Warfare</span></h1>
-            <a href="#" class="play btn">Play</a>
-            <div class="controls shoot">
-              Shoot
+            <a href="#" class="play btn"></a>
+            <div class="players-num">
+              Players number :
+              <input type="radio" name="playerNum" value="2" id="player-num-2" checked><label for="player-num-2">2</label><input type="radio" name="playerNum" value="3" id="player-num-3"><label for="player-num-3">3</label><input type="radio" name="playerNum" value="4" id="player-num-4"><label for="player-num-4">4</label>
             </div>
-            <div class="controls arrows">
-              Move
+            
+            <div class="logo"></div>
+            
+            <div class="controls-info">
+              <div>
+                <div class="title">Player 1</div>
+                <div class="part">
+                  <div class="top control"><span>↑</span></div>
+                  <div class="left control"><span>←</span></div>
+                  <div class="bottom control"><span>↓</span></div>
+                  <div class="right control"><span>→</span></div>
+                  <div class="libelle"><span>Move</span></div>
+                </div>
+                <div class="part part-shoot">
+                  <div class="shoot control"><span>Shift</span></div>
+                  <div class="libelle">Shoot</div>
+                </div>
+              </div>
+              <div class="p3">
+                <div class="title">Player 3</div>
+                <div class="part">
+                  <div class="top control"><span>I</span></div>
+                  <div class="left control"><span>J</span></div>
+                  <div class="bottom control"><span>K</span></div>
+                  <div class="right control"><span>L</span></div>
+                  <div class="libelle"><span>Move</span></div>
+                </div>
+                <div class="part part-shoot">
+                  <div class="shoot control"><span>M / ;</span></div>
+                  <div class="libelle">Shoot</div>
+                </div>
+              </div>
             </div>
-          </div>
-          
-          <div id="story" class="screen">
-            <div>
-              <p>Welcome <b>Prince UL</b>, we need your help, the world of <b>Naribo is in danger</b>.</p>
-              <p>The <b>King</b> became mad and <b>corrupt</b> more and more <b>candies</b>, you have to <b>stop him</b>.</p>
-              <p>Throw your biscuits on these evil candies, <b>may the sugar be with you !</b></p>
+            
+            <div class="controls-info right">
+              <div class="p4">
+                <div class="title">Player 4</div>
+                <div class="part">
+                  <div class="top control"><span>8</span></div>
+                  <div class="left control"><span>4</span></div>
+                  <div class="bottom control"><span>5</span></div>
+                  <div class="right control"><span>6</span></div>
+                  <div class="libelle"><span>Move</span></div>
+                </div>
+                <div class="part part-shoot">
+                  <div class="shoot control"><span>+</span></div>
+                  <div class="libelle">Shoot</div>
+                </div>
+              </div>
+              <div>
+                <div class="title">Player 2</div>
+                <div class="part">
+                  <div class="top control"><span>Z / W</span></div>
+                  <div class="left control"><span>Q / A</span></div>
+                  <div class="bottom control"><span>S</span></div>
+                  <div class="right control"><span>D</span></div>
+                  <div class="libelle"><span>Move</span></div>
+                </div>
+                <div class="part part-shoot">
+                  <div class="shoot control"><span>F</span></div>
+                  <div class="libelle">Shoot</div>
+                </div>
+              </div>
             </div>
-            <a href="#" class="play btn">I'm ready !</a>
+            
+            <div class="rules">Don't fall - Avoid rocks - Last survivor win</div>
           </div>
           
           <div id="game-over" class="screen">
-            <h2>Game Over</h2>
-            <div class="dead"></div>
-            <div class="ghost"></div>
-            <a href="#" class="retry btn">Try again</a>
-          </div>
-
-          <div id="complete" class="screen">
-            <p class="congrats">Congratulations !</p>
-            <p class="time">You saved the world in <span></span></p>
-            <a href="#" class="btn replay">Play again</a>
+            <h2></h2>
+            <div class="btn">
+              <a href="#" class="continue btn"></a>
+              <a href="#" class="menu btn"></a>
+            </div>
           </div>
           
         </div>
+        
+        <div id="scores">
+          <div class="p1">0</div>
+          <div class="p2">0</div>
+          <div class="p3 hidden">0</div>
+          <div class="p4 hidden">0</div>
+        </div>
+      </div>
+      
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
         <script src="game.min.js"></script>
+        
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-3888005-6', 'auto');
+          ga('send', 'pageview');
+
+        </script>
     </body>
 </html>
