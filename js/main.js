@@ -75,7 +75,7 @@ $(function() {
     'img/bullet.png',
     'img/enemy-big.png', 'img/enemy-big-shadow.png', 'img/enemy-small.png', 'img/enemy-small-shadow.png',
     'img-css/continue_1.png', 'img-css/continue_2.png', 'img-css/fond.jpg', 'img-css/logo.png', 'img-css/menu_1.png', 'img-css/menu_2.png', 'img-css/plateforme1.png', 'img-css/plateforme2.png',  'img-css/plateforme3.png',  'img-css/plateforme4.png',  'img-css/play_1.png',  'img-css/play_2.png',
-    //'img-css/overlay.png'
+    'img-css/overlay.png'
   ];
   var imgLoaded = 0;
   
